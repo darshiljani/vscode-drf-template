@@ -1,0 +1,8 @@
+-r base.txt
+
+drf-yasg
+django-debug-toolbar
+
+mypy
+isort
+
