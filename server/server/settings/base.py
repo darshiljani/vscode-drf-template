@@ -48,7 +48,7 @@ COMMON_THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
 ]
 
-LOCAL_APPS = []
+LOCAL_APPS = ["users"]
 
 INSTALLED_APPS = BASE_APPS + COMMON_THIRD_PARTY_APPS + LOCAL_APPS
 
@@ -82,6 +82,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "server.wsgi.application"
+
+
+AUTH_USER_MODEL = "users.Users"
 
 
 # Password validation
