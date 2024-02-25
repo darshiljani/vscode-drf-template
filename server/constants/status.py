@@ -14,7 +14,7 @@ from rest_framework.status import (
 )
 
 
-class STATUS_CODES:
+class STATUS:
     OK = HTTP_200_OK
     CREATED = HTTP_201_CREATED
     ACCEPTED = HTTP_202_ACCEPTED
