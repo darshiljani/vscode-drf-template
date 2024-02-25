@@ -4,3 +4,7 @@ venv/
 # Python compiled code
 __pycache__
 *.pyc
+
+# Default database
+*.sqlite
+*.sqlite3
