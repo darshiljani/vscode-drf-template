@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "wayou.vscode-todo-highlight",
+    "charliermarsh.ruff",
+    "usernamehw.errorlens",
+    "thebarkman.vscode-djaneiro",
+    "ms-python.python"
+  ]
+}
