@@ -29,5 +29,39 @@
     "html": {
       "attr_quotes": "single"
     }
-  }
+  },
+  "todohighlight.isEnable": true,
+  "todohighlight.isCaseSensitive": true,
+  "todohighlight.keywords": [
+    {
+      "text": "FIX",
+      "color": "#333",
+      "backgroundColor": "#DAA520"
+    },
+    {
+      "text": "BUG",
+      "color": "#000",
+      "backgroundColor": "#EE4B2B"
+    },
+    {
+      "text": "TODO",
+      "color": "#333",
+      "backgroundColor": "#0FF"
+    },
+    {
+      "text": "DEBUG",
+      "color": "#000",
+      "backgroundColor": "#FF0"
+    },
+    {
+      "text": "DEPRECATED",
+      "color": "#FFF",
+      "backgroundColor": "#808080"
+    },
+    {
+      "text": "NOTE",
+      "color": "#FFF",
+      "backgroundColor": "#00F"
+    }
+  ]
 }
