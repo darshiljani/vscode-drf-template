@@ -1,5 +1,6 @@
 from django.urls import resolve
 from rest_framework import status
+from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 
 
@@ -18,14 +19,19 @@ class ParamSerializerMiddleware:
             param_serializer_class = view_class.param_serializer_class
 
             # Validate request query params using the serializer
-            serializer_instance = param_serializer_class(data=request.GET)
-            if serializer_instance.is_valid():
+            param_serializer = param_serializer_class(data=request.GET)
+            if param_serializer.is_valid():
                 request.cleaned_params = (
-                    serializer_instance.validated_data
+                    param_serializer.validated_data
                 )  # Attach validated data to request
             else:
-                return Response(
-                    {"error": serializer_instance.errors},
+                err_res = Response(
+                    {"error": param_serializer.errors},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
+                err_res.accepted_renderer = JSONRenderer()
+                err_res.accepted_media_type = "application/json"
+                err_res.renderer_context = {}
+                err_res.render()
+                return err_res
         return self.get_response(request)
