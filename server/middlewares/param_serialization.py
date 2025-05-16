@@ -1,35 +1,31 @@
-from rest_framework.exceptions import ValidationError
-from utils.logman import logman
+from django.urls import resolve
+from rest_framework import status
+from rest_framework.response import Response
+
 
 class ParamSerializerMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
-        response = self.get_response(request)
-        return response
+        resolver_match = resolve(request.path)
+        view_func = resolver_match.func
 
-    def process_view(self, request, view_func, view_args, view_kwargs):
-        _parsed = False
-        if hasattr(view_func, 'param_serializer'):
-            param_serializer_class = getattr(view_func, 'param_serializer')
+        # Extract the class-based DRF view
+        view_class = getattr(view_func, "view_class", None)
 
-            # Get request query params
-            params = request.query_params
+        if view_class and hasattr(view_class, "param_serializer_class"):
+            param_serializer_class = view_class.param_serializer_class
 
-            # Validate and parse the query params using the serializer
-            serializer = param_serializer_class(data=params)
-            try:
-                serializer.is_valid(raise_exception=True)
-                # If valid, parsed data will be available in serializer.validated_data
-                parsed_params = serializer.validated_data
-                _parsed = True
-                request.parsed_params = parsed_params
-            except ValidationError as e:
-                request.parsed_params = {"_error": str(e)}
-                logman.exception(msg=f"Param parsing error")
-        else:
-            request.parsed_params = {}
-
-        # Assign boolean value directly without converting to string
-        request.parsed_params['_parsed'] = _parsed # type: ignore
+            # Validate request query params using the serializer
+            serializer_instance = param_serializer_class(data=request.GET)
+            if serializer_instance.is_valid():
+                request.cleaned_params = (
+                    serializer_instance.validated_data
+                )  # Attach validated data to request
+            else:
+                return Response(
+                    {"error": serializer_instance.errors},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+        return self.get_response(request)

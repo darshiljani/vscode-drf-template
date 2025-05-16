@@ -5,12 +5,18 @@ from django.db import models
 # Create your models here.
 class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(
-        User, on_delete=models.SET_NULL, related_name="%(class)s_created_by", null=True
+        User,
+        on_delete=models.SET_NULL,
+        related_name="%(class)s_created_by",
+        null=True,
     )
     updated_by = models.ForeignKey(
-        User, on_delete=models.SET_NULL, related_name="%(class)s_updated_by", null=True
+        User,
+        on_delete=models.SET_NULL,
+        related_name="%(class)s_updated_by",
+        null=True,
     )
 
     class Meta:
